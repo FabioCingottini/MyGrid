@@ -68,6 +68,8 @@ function get(theme, path) {
 }
 
 const Container = styled.div`
+  box-sizing: border-box;
+  
   max-width: 1140px;
   margin: 0 auto;
   width: 100%;
@@ -90,6 +92,8 @@ const Container = styled.div`
 `;
 
 const Row = styled.div`
+  box-sizing: border-box;
+  
   display: flex;
    
   margin-left: -${({theme}) => get(theme, [GUT, M]) / 2}${({theme}) => get(theme, [GUT, UNIT])};
