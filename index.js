@@ -72,7 +72,7 @@ const Container = styled.div`
   margin: 0 auto;
   width: 100%;
   
-  padding: ${({theme}) => get(theme, [PAD, M])}${({theme}) => get(theme, [PAD, UNIT])} 0;
+  padding: 0 ${({theme}) => get(theme, [PAD, M])}${({theme}) => get(theme, [PAD, UNIT])};
   
   ${({theme}) => {
     const mediaUnit = get(theme, [MED, UNIT]);
@@ -82,7 +82,7 @@ const Container = styled.div`
       const padding = get(theme, [PAD, D]);
       return css`
         @media (min-width: ${media}${mediaUnit}) {
-          padding: ${padding}${paddingUnit};        
+          padding: 0 ${padding}${paddingUnit};        
         }
       `;
     })  
