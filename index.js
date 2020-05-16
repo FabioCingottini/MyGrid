@@ -70,6 +70,7 @@ function get(theme, path) {
 const Container = styled.div`
   max-width: 1140px;
   margin: 0 auto;
+  width: 100%;
   
   padding: ${({theme}) => get(theme, [PAD, M])}${({theme}) => get(theme, [PAD, UNIT])} 0;
   
