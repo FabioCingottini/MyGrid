@@ -113,7 +113,19 @@ const Row = styled.div`
       `;
     })
   }}
+  
+  ${({center}) => center && css`
+    justify-content: center;
+  `}
 `;
+
+Row.propTypes = {
+  center: PropTypes.bool.isRequired
+}
+
+Row.defaultProps = {
+  center: false
+}
 
 const Col = styled.div`
   box-sizing: border-box;
