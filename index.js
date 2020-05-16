@@ -3,10 +3,10 @@ import * as PropTypes from 'prop-types';
 
 const UNIT = `unit`;
 
-const MED = `media`;
-const COL = `columns`;
-const GUT = `gutters`;
-const PAD = `padding`;
+const MED = `grid_media`;
+const COL = `grid_columns`;
+const GUT = `grid_gutters`;
+const PAD = `grid_padding`;
 
 const M = `m`;
 const ML = `ml`;
@@ -145,7 +145,6 @@ const Col = styled.div`
         @media (min-width: ${media}${mediaUnit}) {
           padding-left: ${dimension}${gutterUnit};
           padding-right: ${dimension}${gutterUnit};
-          width: ${({theme}) => css`calc(100% / ${get(theme, [COL, D])} * ${props => props[D]})`};
           width: calc(100% / ${allColumns} * ${props => props[D]});
         }   
       `;
