@@ -1,5 +1,6 @@
 - [Intro](#intro)
   - [Default configuration](#default-configuration)
+- [Container](#container)
   
 ## Intro
 ```JSX
@@ -31,6 +32,23 @@ Is a fully customizable flexbox grid with the following default configuration.
 | gutter                    | `8`       | `8`                 | `12`      | `12`              | `16`      | `px`  |
 | container                 | `1140`    | `1140`              | `1140`    | `1140`            | `1140`    | `px`  |
 | container padding         | `16`      | `16`                | `16`      | `16`              | `0`       | `px`  |
+
+## Container
+Container does not have special props. Simply import it for using it.
+
+```JSX
+import {Container, Row, Col} from '../where/you/place/index/file.js';
+  
+export const MyComponent = () => {
+  return (
+    <Container>      
+      <p>This will be in the container!</p>
+    </Container>
+  );
+}  
+```
+
+  
 
 
 
