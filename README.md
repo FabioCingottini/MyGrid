@@ -3,6 +3,7 @@
 - [Container](#container)
 - [Row](#row)
   - [Justify content](#justify-content)
+  - [Align items](#align-items)
   
 ## Intro
 ```JSX
@@ -73,7 +74,7 @@ export const MyComponent = () => {
 ```
 #### Justify content
 
-As a flexbox box, you can specify `justify-content` css property passing props to `<Row>` component.  
+As a flexbox box, you can specify css rule `justify-content` passing props to `<Row>` component.  
 Available props are: 
 - `justifyCenter`
 - `justifyFlexStart`
@@ -83,8 +84,8 @@ Available props are:
 - `spaceEvenly`
 
 Each of these props can be used:
-- without passing value (the behaviour is mantained for each breakpoint) 
-- passing an array of one or more of the these values: `m`,`ml`,`t`,`tl` and`l` (in this case the target behaviour will be mantained only in the specified breakpoint).
+- without passing value (the chosen `justify-content` behaviour is mantained for each breakpoint) 
+- passing an array of one or more of the these values: `m`,`ml`,`t`,`tl` and`l` (in this case the chosen `justify-content` behaviour will be mantained only in the specified breakpoint).
 
 ```JSX
 import {Container, Row, Col} from '../where/you/place/index/file.js';
@@ -97,20 +98,65 @@ export const MyComponent = () => {
           this column will be always centered
         </Col>
       </Row>  
-      <Row center={['ml', 'l']}>
+      <Row justifyCenter={['ml', 'l']}>
         <Col>
-          this column will be centered only in mobile landscape and in laptop
+          this column will be horizontally centered only in mobile landscape and in laptop
         </Col>
       </Row>  
-      <Row flexEnd={['m', 't']}>
+      <Row justifyFlexEnd={['m', 't']}>
         <Col>
-          this column will be aligned to the right only in mobile and in tablet
+          this column will be aligned horizontally to the right only in mobile and in tablet
         </Col>
       </Row>  
-      <Row flexStart={['m', 't', 'l']}  center={['ml', 'tl']} >
+      <Row justifyFlexStart={['m', 't', 'l']}  justifyCenter={['ml', 'tl']} >
         <Col>
-          this column will be aligned to the left in mobile, tablet and laptop.
-          this column will be centered in mobile landscape and tablet landscape.
+          this column will be aligned horizontally to the left in mobile, tablet and laptop.
+          this column will be centered horizontally in mobile landscape and tablet landscape.
+        </Col>
+      </Row>  
+    </Container>
+  );
+}  
+```
+
+#### Align items
+As a flexbox box, you can specify css rule `align-items` passing props to `<Row>` component.  
+Available props are: 
+- alignCenter
+- alignBaseline
+- alignFlexStart
+- alignFlexEnd
+- alignStretch
+
+Each of these props can be used:
+- without passing value (the chosen `align-items` behaviour is mantained for each breakpoint) 
+- passing an array of one or more of the these values: `m`,`ml`,`t`,`tl` and`l` (in this case the chosen `align-items` behaviour will be mantained only in the specified breakpoint).
+
+```JSX
+import {Container, Row, Col} from '../where/you/place/index/file.js';
+  
+export const MyComponent = () => {
+  return (
+    <Container>
+      <Row alignCenter>
+        <Col>
+          this column will be always vertically centered
+        </Col>
+      </Row>  
+      <Row alignCenter={['ml', 'l']}>
+        <Col>
+          this column will be centered vertically only in mobile landscape and in laptop
+        </Col>
+      </Row>  
+      <Row alignFlexEnd={['m', 't']}>
+        <Col>
+          this column will be aligned vertically to the bottom only in mobile and in tablet
+        </Col>
+      </Row>  
+      <Row alignFlexStart={['m', 't', 'l']} alignCenter={['ml', 'tl']} >
+        <Col>
+          this column will be vertically aligned to the top in mobile, tablet and laptop.
+          this column will be vertically centered in mobile landscape and tablet landscape.
         </Col>
       </Row>  
     </Container>
