@@ -7,6 +7,7 @@ const MED = `grid_media`;
 const COL = `grid_columns`;
 const GUT = `grid_gutters`;
 const PAD = `grid_padding`;
+const CONT = `grid_container`;
 
 const M = `m`;
 const ML = `ml`;
@@ -37,6 +38,14 @@ const defaultTheme = {
     [T]: 12,
     [TL]: 12,
     [L]: 16,
+    [UNIT]: `px`,
+  },
+  [CONT]: {
+    [M]: 1140,
+    [ML]: 1140,
+    [T]: 1140,
+    [TL]: 1140,
+    [L]: 1140,
     [UNIT]: `px`,
   },
   [PAD]: {
@@ -70,7 +79,20 @@ function get(theme, path) {
 const Container = styled.div`
   box-sizing: border-box;
   
-  max-width: 1140px;
+  max-width: ${({theme}) => get(theme, [CONT, M])}${({theme}) => get(theme, [CONT, UNIT])};
+  ${({theme}) => {
+    const containerUnit = get(theme, [CONT, UNIT]);
+    const mediaUnit = get(theme, [MED, UNIT]);
+    return DIM.map((D) => {
+      const media = get(theme, [MED, D]);
+      const container = get(theme, [CONT, D]);
+      return css`
+        @media (min-width: ${media}${mediaUnit}) {
+          max-width: ${container}${containerUnit};
+        }
+      `;     
+    });   
+  }}; 
   margin: 0 auto;
   width: 100%;
   
