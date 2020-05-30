@@ -122,11 +122,11 @@ export const MyComponent = () => {
 #### Align items
 As a flexbox box, you can specify css rule `align-items` passing props to `<Row>` component.  
 Available props are: 
-- alignCenter
-- alignBaseline
-- alignFlexStart
-- alignFlexEnd
-- alignStretch
+- `alignCenter`
+- `alignBaseline`
+- `alignFlexStart`
+- `alignFlexEnd`
+- `alignStretch`
 
 Each of these props can be used:
 - without passing value (the chosen `align-items` behaviour is mantained for each breakpoint) 
