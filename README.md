@@ -2,6 +2,7 @@
   - [Default configuration](#default-configuration)
 - [Container](#container)
 - [Row](#row)
+  - [Centering](#centering)
   
 ## Intro
 ```JSX
@@ -50,7 +51,7 @@ export const MyComponent = () => {
 ```
 
 ## Row
-Row 
+Row displays your columns in a flexbox row. 
 
 ```JSX
 import {Container, Row, Col} from '../where/you/place/index/file.js';
@@ -66,6 +67,27 @@ export const MyComponent = () => {
           my other col
         </Col>
       </Row>     
+    </Container>
+  );
+}  
+```
+#### Centering
+```JSX
+import {Container, Row, Col} from '../where/you/place/index/file.js';
+  
+export const MyComponent = () => {
+  return (
+    <Container>
+      <Row center>
+        <Col>
+          this column will be centered at every breakpoints
+        </Col>
+      </Row>  
+      <Row center={['t']}>
+        <Col>
+          this column will be centered from tablet to tablet-landscape (not included) breakpoints
+        </Col>
+      </Row>  
     </Container>
   );
 }  
