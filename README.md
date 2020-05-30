@@ -1,6 +1,7 @@
 - [Intro](#intro)
   - [Default configuration](#default-configuration)
 - [Container](#container)
+- [Row](#row)
   
 ## Intro
 ```JSX
@@ -43,6 +44,28 @@ export const MyComponent = () => {
   return (
     <Container>      
       <p>This will be in the container!</p>
+    </Container>
+  );
+}  
+```
+
+## Row
+Row 
+
+```JSX
+import {Container, Row, Col} from '../where/you/place/index/file.js';
+  
+export const MyComponent = () => {
+  return (
+    <Container>
+      <Row>
+        <Col>
+          my col
+        </Col>
+        <Col>
+          my other col
+        </Col>
+      </Row>     
     </Container>
   );
 }  
