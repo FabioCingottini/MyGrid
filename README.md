@@ -87,7 +87,7 @@ Available props are:
 - `justifyFlexEnd`
 - `justifySpaceBetween`
 - `justifySpaceAround`
-- `spaceEvenly`
+- `justifySpaceEvenly`
 
 Each of these props can be used:
 - without passing value (the chosen `justify-content` behaviour is mantained for each breakpoint) 
