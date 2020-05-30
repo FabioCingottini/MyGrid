@@ -37,7 +37,7 @@ Is a fully customizable flexbox grid with the following default configuration.
 Container does not have special props. Simply import it for using it.
 
 ```JSX
-import {Container, Row, Col} from '../where/you/place/index/file.js';
+import {Container} from '../where/you/place/index/file.js';
   
 export const MyComponent = () => {
   return (
