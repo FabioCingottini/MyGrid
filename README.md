@@ -18,15 +18,19 @@ export const MyComponent = () => {
 }  
 ```
 
+This is a react styled components grid that export 3 components you can use to define your webpage layout.
+Is a fully customizable flexbox grid with the following default configuration.
+
+
 #### Default configuration
-|                           | m         | ml                  | t         | tl                | l         |
-|---                        |---        |---                  |---        |---                |---        |
-| stands for                | mobile    | mobile landscape    | tablet    | tablet landscape  | laptop    |
-| columns                   | `12`      | `12`                | `12`      | `12`              | `12`      |
-| breakpoint `(min-width)`  | `0px`     | `568px`             | `768px`   | `1024px`          | `1200px`  |
-| gutter                    | `8px`     | `8px`               | `12px`    | `12px`            | `16px`    |
-| container                 | `1140px`  | `1140px`            | `1140px`  | `1140px`          | `1140px`  |
-| container padding         | `16px`    | `16px`              | `16px`    | `16px`            | `0px`     |
+|                           | m         | ml                  | t         | tl                | l         | unit  |
+|---                        |---        |---                  |---        |---                |---        |---    |
+| stands for                | mobile    | mobile landscape    | tablet    | tablet landscape  | laptop    |       |
+| columns                   | `12`      | `12`                | `12`      | `12`              | `12`      |       |
+| breakpoint `(min-width)`  | `0 `      | `568`               | `768`     | `1024`            | `1200`    | `px`  |
+| gutter                    | `8`       | `8`                 | `12`      | `12`              | `16`      | `px`  |
+| container                 | `1140`    | `1140`              | `1140`    | `1140`            | `1140`    | `px`  |
+| container padding         | `16`      | `16`                | `16`      | `16`              | `0`       | `px`  |
 
 
 
