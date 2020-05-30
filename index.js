@@ -147,6 +147,21 @@ const Container = styled.div`
 }}
 `;
 
+function renderArrayOrBoolProp(prop, theme, cssToRender) {
+  if (prop === true) {
+    return cssToRender;
+  } else if (Array.isArray(prop)){
+    return prop.map((dimension) => {
+      const strictMedia = getStrictMedia(theme, dimension);
+      return css`
+          @media ${strictMedia} {
+            ${cssToRender}
+          }
+        `;
+    })
+  }
+}
+
 const Row = styled.div`
   box-sizing: border-box;
   
@@ -170,33 +185,53 @@ const Row = styled.div`
     })
   }}
   
-  ${({center, theme}) => {
-    if (center === true) {
-      return css`justify-content: center;`
-    } else if (Array.isArray(center)){
-      return center.map((dimension) => {
-        const strictMedia = getStrictMedia(theme, dimension);
-        return css`
-          @media ${strictMedia} {
-            justify-content: center;
-          }
-        `;
-      })     
-    }
-  }}
+  ${({justifyCenter, theme}) => renderArrayOrBoolProp(justifyCenter, theme, css`justify-content: center;`)}
+  ${({justifyFlexStart, theme}) => renderArrayOrBoolProp(justifyFlexStart, theme, css`justify-content: flex-start;`)}
+  ${({justifyFlexEnd, theme}) => renderArrayOrBoolProp(justifyFlexEnd, theme, css`justify-content: flex-end;`)}
+  ${({justifySpaceBetween, theme}) => renderArrayOrBoolProp(justifySpaceBetween, theme, css`justify-content: space-between;`)}
+  ${({justifySpaceAround, theme}) => renderArrayOrBoolProp(justifySpaceAround, theme, css`justify-content: space-around;`)}
+  ${({justifySpaceEvenly, theme}) => renderArrayOrBoolProp(justifySpaceEvenly, theme, css`justify-content: space-evenly;`)}
+  
+  ${({alignCenter, theme}) => renderArrayOrBoolProp(alignCenter, theme, css`align-items: center;`)}
+  ${({alignBaseline, theme}) => renderArrayOrBoolProp(alignBaseline, theme, css`align-items: baseline;`)}
+  ${({alignFlexStart, theme}) => renderArrayOrBoolProp(alignFlexStart, theme, css`align-items: flex-start;`)}
+  ${({alignFlexEnd, theme}) => renderArrayOrBoolProp(alignFlexEnd, theme, css`align-items: flex-end;`)}
+  ${({alignStretch, theme}) => renderArrayOrBoolProp(alignStretch, theme, css`align-items: stretch;`)}
 `;
 
+const justifyAlignPropTypes = PropTypes.oneOfType([
+  PropTypes.bool,
+  PropTypes.arrayOf(
+    PropTypes.oneOf([M, ML, T, TL, L])
+  )
+]).isRequired;
+
 Row.propTypes = {
-  center: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.arrayOf(
-      PropTypes.oneOf([M, ML, T, TL, L])
-    )
-  ]).isRequired
+  justifyCenter: justifyAlignPropTypes,
+  justifyFlexStart: justifyAlignPropTypes,
+  justifyFlexEnd: justifyAlignPropTypes,
+  justifySpaceBetween: justifyAlignPropTypes,
+  justifySpaceAround: justifyAlignPropTypes,
+  justifySpaceEvenly: justifyAlignPropTypes,
+  alignCenter: justifyAlignPropTypes,
+  alignBaseline: justifyAlignPropTypes,
+  alignFlexStart: justifyAlignPropTypes,
+  alignFlexEnd: justifyAlignPropTypes,
+  alignStretch: justifyAlignPropTypes,
 }
 
 Row.defaultProps = {
-  center: false
+  justifyCenter: false,
+  justifyFlexStart: false,
+  justifyFlexEnd: false,
+  justifySpaceBetween: false,
+  justifySpaceAround: false,
+  justifySpaceEvenly: false,
+  alignCenter: false,
+  alignBaseline: false,
+  alignFlexStart: false,
+  alignFlexEnd: false,
+  alignStretch: false,
 }
 
 const Col = styled.div`
