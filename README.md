@@ -74,8 +74,17 @@ export const MyComponent = () => {
 #### Justify content
 
 As a flexbox box, you can specify `justify-content` css property passing props to `<Row>` component.  
-Available props are: `center`,`flexStart`,`flexEnd`,`spaceBetween`,`spaceAround` and `spaceEvenly`.
-Each of these props can be used without passing value (the behaviour is mantained for each breakpoint) or passing an array of one or more of the these values: `m`,`ml`,`t`,`tl` and`l` (in this case the target behaviour will be mantained only in the specified breakpoint).
+Available props are: 
+- `justifyCenter`
+- `justifyFlexStart`
+- `justifyFlexEnd`
+- `justifySpaceBetween`
+- `justifySpaceAround`
+- `spaceEvenly`
+
+Each of these props can be used:
+- without passing value (the behaviour is mantained for each breakpoint) 
+- passing an array of one or more of the these values: `m`,`ml`,`t`,`tl` and`l` (in this case the target behaviour will be mantained only in the specified breakpoint).
 
 ```JSX
 import {Container, Row, Col} from '../where/you/place/index/file.js';
