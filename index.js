@@ -3,11 +3,11 @@ import * as PropTypes from 'prop-types';
 
 const UNIT = `unit`;
 
-const MED = `grid_media`;
-const COL = `grid_columns`;
-const GUT = `grid_gutters`;
-const PAD = `grid_padding`;
-const CONT = `grid_container`;
+const MED = `gridMedia`;
+const COL = `gridColumns`;
+const GUT = `gridGutters`;
+const PAD = `gridPadding`;
+const CONT = `gridContainer`;
 
 const M = `m`;
 const ML = `ml`;
