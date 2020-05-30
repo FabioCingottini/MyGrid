@@ -110,6 +110,28 @@ function getStrictMedia(theme, dim) {
   }
 }
 
+function renderArrayOrBoolProp(prop, theme, cssToRender) {
+  if (prop === true) {
+    return cssToRender;
+  } else if (Array.isArray(prop)){
+    return prop.map((dimension) => {
+      const strictMedia = getStrictMedia(theme, dimension);
+      return css`
+        @media ${strictMedia} {
+          ${cssToRender}
+        }
+      `;
+    });
+  }
+}
+
+const dimensionPropTypes = PropTypes.oneOfType([
+  PropTypes.bool,
+  PropTypes.arrayOf(
+    PropTypes.oneOf([M, ML, T, TL, L])
+  )
+]).isRequired;
+
 const Container = styled.div`
   box-sizing: border-box;
   
@@ -121,10 +143,10 @@ const Container = styled.div`
     const media = get(theme, [MED, D]);
     const container = get(theme, [CONT, D]);
     return css`
-        @media (min-width: ${media}${mediaUnit}) {
-          max-width: ${container}${containerUnit};
-        }
-      `;
+      @media (min-width: ${media}${mediaUnit}) {
+        max-width: ${container}${containerUnit};
+      }
+    `;
   });
 }}; 
   margin: 0 auto;
@@ -139,28 +161,13 @@ const Container = styled.div`
     const media = get(theme, [MED, D]);
     const padding = get(theme, [PAD, D]);
     return css`
-        @media (min-width: ${media}${mediaUnit}) {
-          padding: 0 ${padding}${paddingUnit};        
-        }
-      `;
+      @media (min-width: ${media}${mediaUnit}) {
+        padding: 0 ${padding}${paddingUnit};        
+      }
+    `;
   })
 }}
 `;
-
-function renderArrayOrBoolProp(prop, theme, cssToRender) {
-  if (prop === true) {
-    return cssToRender;
-  } else if (Array.isArray(prop)){
-    return prop.map((dimension) => {
-      const strictMedia = getStrictMedia(theme, dimension);
-      return css`
-          @media ${strictMedia} {
-            ${cssToRender}
-          }
-        `;
-    })
-  }
-}
 
 const Row = styled.div`
   box-sizing: border-box;
@@ -171,18 +178,18 @@ const Row = styled.div`
   margin-right: -${({theme}) => get(theme, [GUT, M]) / 2}${({theme}) => get(theme, [GUT, UNIT])};
   
   ${({theme}) => {
-  const mediaUnit = get(theme, [MED, UNIT]);
-  const gutterUnit = get(theme, [GUT, UNIT]);
-  return DIM.map((D) => {
-    const media = get(theme, [MED, D]);
-    const dimension = get(theme, [GUT, D]);
-    return css`
+    const mediaUnit = get(theme, [MED, UNIT]);
+    const gutterUnit = get(theme, [GUT, UNIT]);
+    return DIM.map((D) => {
+      const media = get(theme, [MED, D]);
+      const dimension = get(theme, [GUT, D]);
+      return css`
         @media (min-width: ${media}${mediaUnit}) {
           margin-left: -${dimension / 2}${gutterUnit};
           margin-right: -${dimension / 2}${gutterUnit};
         }   
       `;
-    })
+    });
   }}
   
   ${({justifyCenter, theme}) => renderArrayOrBoolProp(justifyCenter, theme, css`justify-content: center;`)}
@@ -199,25 +206,18 @@ const Row = styled.div`
   ${({alignStretch, theme}) => renderArrayOrBoolProp(alignStretch, theme, css`align-items: stretch;`)}
 `;
 
-const justifyAlignPropTypes = PropTypes.oneOfType([
-  PropTypes.bool,
-  PropTypes.arrayOf(
-    PropTypes.oneOf([M, ML, T, TL, L])
-  )
-]).isRequired;
-
 Row.propTypes = {
-  justifyCenter: justifyAlignPropTypes,
-  justifyFlexStart: justifyAlignPropTypes,
-  justifyFlexEnd: justifyAlignPropTypes,
-  justifySpaceBetween: justifyAlignPropTypes,
-  justifySpaceAround: justifyAlignPropTypes,
-  justifySpaceEvenly: justifyAlignPropTypes,
-  alignCenter: justifyAlignPropTypes,
-  alignBaseline: justifyAlignPropTypes,
-  alignFlexStart: justifyAlignPropTypes,
-  alignFlexEnd: justifyAlignPropTypes,
-  alignStretch: justifyAlignPropTypes,
+  justifyCenter: dimensionPropTypes,
+  justifyFlexStart: dimensionPropTypes,
+  justifyFlexEnd: dimensionPropTypes,
+  justifySpaceBetween: dimensionPropTypes,
+  justifySpaceAround: dimensionPropTypes,
+  justifySpaceEvenly: dimensionPropTypes,
+  alignCenter: dimensionPropTypes,
+  alignBaseline: dimensionPropTypes,
+  alignFlexStart: dimensionPropTypes,
+  alignFlexEnd: dimensionPropTypes,
+  alignStretch: dimensionPropTypes,
 }
 
 Row.defaultProps = {
@@ -239,22 +239,41 @@ const Col = styled.div`
   
   padding-left: ${({theme}) => get(theme, [GUT, M])}${({theme}) => get(theme, [GUT, UNIT])};
   padding-right: ${({theme}) => get(theme, [GUT, M])}${({theme}) => get(theme, [GUT, UNIT])};
-  width: ${({theme}) => css`calc(100% / ${get(theme, [COL, M])} * ${props => props[M]})`};
+  flex-basis: ${({theme}) => css`calc(100% / ${get(theme, [COL, M])} * ${props => props[M]})`};
   
-  ${({theme}) => {
-  const mediaUnit = get(theme, [MED, UNIT]);
-  const gutterUnit = get(theme, [GUT, UNIT]);
-  return DIM.map((D) => {
-    const media = get(theme, [MED, D]);
-    const dimension = get(theme, [GUT, D]);
-    const allColumns = get(theme, [COL, ML]);
-    return css`
+  ${({theme, ...props}) => {
+    const mediaUnit = get(theme, [MED, UNIT]);
+    const gutterUnit = get(theme, [GUT, UNIT]);
+    return DIM.map((D) => {
+      const media = get(theme, [MED, D]);
+      const dimension = get(theme, [GUT, D]);
+      const allColumns = get(theme, [COL, D]);
+      return css`
         @media (min-width: ${media}${mediaUnit}) {
           padding-left: ${dimension}${gutterUnit};
           padding-right: ${dimension}${gutterUnit};
-          width: calc(100% / ${allColumns} * ${props => props[D]});
-        }   
+          ${!!props[D] && css`flex-basis: calc(100% / ${allColumns} * ${props[D]});`};
+        }
       `;
+    });
+  }}
+  ${({theme, ...props}) => {
+  return [  
+      ['strictM', M],
+      ['strictMl', ML],
+      ['strictT', T],
+      ['strictTl', TL],
+      ['strictL', L],
+    ].map(([prop, D]) => {
+      if (props[prop]) {
+        const allColumns = get(theme, [COL, D]);
+        const strictMedia = getStrictMedia(theme, D);
+        return css`
+          @media ${strictMedia} {
+            flex-basis: calc(100% / ${allColumns} * ${props[prop]}); 
+          }        
+        `;
+      }
     })
   }}
   ${({debug}) => debug && css`
@@ -268,14 +287,14 @@ Col.propTypes = {
   t: PropTypes.number,
   tl: PropTypes.number,
   l: PropTypes.number,
+  strictM: PropTypes.number,
+  strictMl: PropTypes.number,
+  strictT: PropTypes.number,
+  strictTl: PropTypes.number,
+  strictL: PropTypes.number,
   debug: PropTypes.bool.isRequired,
 }
 Col.defaultProps = {
-  m: 12,
-  ml: 12,
-  t: 12,
-  tl: 12,
-  l: 12,
   debug: false,
 }
 
