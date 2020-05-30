@@ -60,7 +60,7 @@ const defaultTheme = {
 
 /**
  * get value from theme or config if not available in theme
- * @param {string} theme = the theme object
+ * @param {obj} theme = the theme object
  * @param {string[]} path = path object in order
  * @returns {string} : the value
  */
@@ -76,41 +76,75 @@ function get(theme, path) {
   }
 }
 
+/**
+ * get strict media
+ * @param {obj} theme = the theme obj
+ * @param {string} dim = the dimension for wh
+ */
+function getStrictMedia(theme, dim) {
+  const mediaUnit = get(theme, [MED, UNIT]);
+  switch (dim) {
+    case M: {
+      const upperBreakpoint = get(theme, [MED, ML]) - 1;
+      return css`(max-width: ${upperBreakpoint}${mediaUnit})`;
+    }
+    case ML: {
+      const lowerBreakpoint = get(theme, [MED, ML]);
+      const upperBreakpoint = get(theme, [MED, T]) - 1;
+      return css`(min-width: ${lowerBreakpoint}${mediaUnit}) and (max-width: ${upperBreakpoint}${mediaUnit})`;
+    }
+    case T: {
+      const lowerBreakpoint = get(theme, [MED, T]);
+      const upperBreakpoint = get(theme, [MED, TL]) - 1;
+      return css`(min-width: ${lowerBreakpoint}${mediaUnit}) and (max-width: ${upperBreakpoint}${mediaUnit})`;
+    }
+    case TL: {
+      const lowerBreakpoint = get(theme, [MED, TL]);
+      const upperBreakpoint = get(theme, [MED, L]) - 1;
+      return css`(min-width: ${lowerBreakpoint}${mediaUnit}) and (max-width: ${upperBreakpoint}${mediaUnit})`;
+    }
+    case L: {
+      const lowerBreakpoint = get(theme, [MED, L]);
+      return css`(min-width: ${lowerBreakpoint}${mediaUnit})`;
+    }
+  }
+}
+
 const Container = styled.div`
   box-sizing: border-box;
   
   max-width: ${({theme}) => get(theme, [CONT, M])}${({theme}) => get(theme, [CONT, UNIT])};
   ${({theme}) => {
-    const containerUnit = get(theme, [CONT, UNIT]);
-    const mediaUnit = get(theme, [MED, UNIT]);
-    return DIM.map((D) => {
-      const media = get(theme, [MED, D]);
-      const container = get(theme, [CONT, D]);
-      return css`
+  const containerUnit = get(theme, [CONT, UNIT]);
+  const mediaUnit = get(theme, [MED, UNIT]);
+  return DIM.map((D) => {
+    const media = get(theme, [MED, D]);
+    const container = get(theme, [CONT, D]);
+    return css`
         @media (min-width: ${media}${mediaUnit}) {
           max-width: ${container}${containerUnit};
         }
-      `;     
-    });   
-  }}; 
+      `;
+  });
+}}; 
   margin: 0 auto;
   width: 100%;
   
   padding: 0 ${({theme}) => get(theme, [PAD, M])}${({theme}) => get(theme, [PAD, UNIT])};
   
   ${({theme}) => {
-    const mediaUnit = get(theme, [MED, UNIT]);
-    const paddingUnit = get(theme, [PAD, UNIT]);
-    return DIM.map((D) => {
-      const media = get(theme, [MED, D]);
-      const padding = get(theme, [PAD, D]);
-      return css`
+  const mediaUnit = get(theme, [MED, UNIT]);
+  const paddingUnit = get(theme, [PAD, UNIT]);
+  return DIM.map((D) => {
+    const media = get(theme, [MED, D]);
+    const padding = get(theme, [PAD, D]);
+    return css`
         @media (min-width: ${media}${mediaUnit}) {
           padding: 0 ${padding}${paddingUnit};        
         }
       `;
-    })  
-  }}
+  })
+}}
 `;
 
 const Row = styled.div`
@@ -122,12 +156,12 @@ const Row = styled.div`
   margin-right: -${({theme}) => get(theme, [GUT, M]) / 2}${({theme}) => get(theme, [GUT, UNIT])};
   
   ${({theme}) => {
-    const mediaUnit = get(theme, [MED, UNIT]);
-    const gutterUnit = get(theme, [GUT, UNIT]);
-    return DIM.map((D) => {
-      const media = get(theme, [MED, D]);
-      const dimension = get(theme, [GUT, D]);
-      return css`
+  const mediaUnit = get(theme, [MED, UNIT]);
+  const gutterUnit = get(theme, [GUT, UNIT]);
+  return DIM.map((D) => {
+    const media = get(theme, [MED, D]);
+    const dimension = get(theme, [GUT, D]);
+    return css`
         @media (min-width: ${media}${mediaUnit}) {
           margin-left: -${dimension / 2}${gutterUnit};
           margin-right: -${dimension / 2}${gutterUnit};
@@ -136,13 +170,29 @@ const Row = styled.div`
     })
   }}
   
-  ${({center}) => center && css`
-    justify-content: center;
-  `}
+  ${({center, theme}) => {
+    if (center === true) {
+      return css`justify-content: center;`
+    } else if (Array.isArray(center)){
+      return center.map((dimension) => {
+        const strictMedia = getStrictMedia(theme, dimension);
+        return css`
+          @media ${strictMedia} {
+            justify-content: center;
+          }
+        `;
+      })     
+    }
+  }}
 `;
 
 Row.propTypes = {
-  center: PropTypes.bool.isRequired
+  center: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.arrayOf(
+      PropTypes.oneOf([M, ML, T, TL, L])
+    )
+  ]).isRequired
 }
 
 Row.defaultProps = {
@@ -157,13 +207,13 @@ const Col = styled.div`
   width: ${({theme}) => css`calc(100% / ${get(theme, [COL, M])} * ${props => props[M]})`};
   
   ${({theme}) => {
-    const mediaUnit = get(theme, [MED, UNIT]);
-    const gutterUnit = get(theme, [GUT, UNIT]);
-    return DIM.map((D) => {
-      const media = get(theme, [MED, D]);
-      const dimension = get(theme, [GUT, D]);
-      const allColumns = get(theme, [COL, ML]);
-      return css`
+  const mediaUnit = get(theme, [MED, UNIT]);
+  const gutterUnit = get(theme, [GUT, UNIT]);
+  return DIM.map((D) => {
+    const media = get(theme, [MED, D]);
+    const dimension = get(theme, [GUT, D]);
+    const allColumns = get(theme, [COL, ML]);
+    return css`
         @media (min-width: ${media}${mediaUnit}) {
           padding-left: ${dimension}${gutterUnit};
           padding-right: ${dimension}${gutterUnit};
