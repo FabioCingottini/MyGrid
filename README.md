@@ -17,7 +17,10 @@ export const MyComponent = () => {
     <Container>      
       <Row>
         <Col m={12} ml={12} t={8} tl={8} l={6}>
-          Centered column
+          that's my column!
+          - in mobile and mobile landscape it occupies the entire screen
+          - in tablet and tablet landscape it occupies 8/12 of the screen
+          - in laptop it occupies 6/12 of the screen
         </Col>      
       </Row>            
     </Container>
