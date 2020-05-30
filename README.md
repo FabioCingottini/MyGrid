@@ -4,6 +4,11 @@
 - [Row](#row)
   - [Justify content](#justify-content)
   - [Align items](#align-items)
+- [Col](#col)
+  - [Col size](#col-size)
+  - [Col size only in specific breakpoint](#col-size-only-in-specific-breakpoint)
+  - [Col grow](#col-grow)
+  - [Col shrink](#col-shrink)
 - [Custom configuration](#custom-configuration)
   - [Overriding only specific parts of the default configuration](#overriding-only-specific-parts-of-the-default-configuration)
   - [Overriding units](#overriding-units)
@@ -164,6 +169,61 @@ export const MyComponent = () => {
           this column will be vertically aligned to the top in mobile, tablet and laptop.
           this column will be vertically centered in mobile landscape and tablet landscape.
         </Col>
+      </Row>  
+    </Container>
+  );
+}  
+```
+
+## Col
+Col contains you webpage content, you can specify:
+- col width for each breakpoint (it calculates `flex-basis`)
+- col growth for each breakpoint (it calculates `flex-grow`)
+- col shrink for each breakpoint (it calculates `flex-shrink`)
+
+#### Col size
+You can specify col width (in column unit) using `<Col>` props.
+Because of media queries nature, once you specify a -for example- `t`, this sizing will affect all the 'bigger' breakpoints if you don't specify another sizing for them.
+
+```JSX
+import {Container, Row, Col} from '../where/you/place/index/file.js';
+  
+export const MyComponent = () => {
+  return (
+    <Container>
+      <Row >
+        <Col m={12} t={6}>
+          This column occupies full screen in mobile and mobile landscape.
+          This column occupies half screen from tablet
+        </Col>        
+        <Col m={12} ml={10} t={8} tl={6} l={4}>
+          This column occupies full screen in mobile.
+          This column occupies 10/12 in mobile landscape.
+          This column occupies 8/12 in tablet.
+          This column occupies half screen in tablet landscape.
+          This column occupies 4/12 in laptop.
+        </Col>
+      </Row>  
+    </Container>
+  );
+}  
+```
+#### Col size only in specific breakpoint
+For solve the above problem, you can specify one or more `strictM`, `strictMl`, `strictT`, `strictTl`, `strictL`. 
+This will set the specified size only in that breakpoint
+
+```JSX
+import {Container, Row, Col} from '../where/you/place/index/file.js';
+  
+export const MyComponent = () => {
+  return (
+    <Container>
+      <Row >
+        <Col strictM={12} strictT={1} strictL={6}>
+          This column occupies full screen in mobile
+          This column occupies 1/12 screen in tablet
+          This column occupies half screen in laptop
+        </Col>               
       </Row>  
     </Container>
   );
