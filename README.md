@@ -1,7 +1,7 @@
-- [Basic usage](#basic-usage)
+- [Intro](#intro)
   - [Default configuration](#default-configuration)
   
-## Basic usage
+## Intro
 ```JSX
 import {Container, Row, Col} from '../where/you/place/index/file.js';
   
