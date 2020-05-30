@@ -4,6 +4,9 @@
 - [Row](#row)
   - [Justify content](#justify-content)
   - [Align items](#align-items)
+- [Custom configuration](#custom-configuration)
+  - [Overriding only specific parts of the default configuration](#overriding-only-specific-parts-of-the-default-configuration)
+  - [Overriding units](#overriding-units)
   
 ## Intro
 ```JSX
@@ -163,3 +166,134 @@ export const MyComponent = () => {
   );
 }  
 ```
+
+## Custom configuration
+
+In the following snippet you can see how you can pass a custom configuration using styled-components `<ThemeProvider>`. 
+
+```JSX
+import {ThemeProvider} from "styled-components";
+import {Container, Row, Col} from '../where/you/place/index/file.js';
+  
+export const MyComponent = () => {
+  return (
+    <ThemeProvider
+      theme={{
+        gridMedia: {
+          ml: 568,
+          t: 768,
+          tl: 1024,
+          l: 1200,
+          unit: `px`,
+        },
+        gridColumns: {
+          m: 12,
+          ml: 12,
+          t: 12,
+          tl: 12,
+          l: 12,
+        },
+        gridGutters: {
+          m: 8,
+          ml: 8,
+          t: 12,
+          tl: 12,
+          l: 16,
+          unit: `px`,
+        },
+        gridContainer: {
+          m: 1140,
+          ml: 1140,
+          t: 1140,
+          tl: 1140,
+          l: 1140,
+          unit: `px`,
+        },
+        gridPadding: {
+          m: 16,
+          ml: 16,
+          t: 16,
+          tl: 16,
+          l: 0,
+          unit: `px`,
+        }
+      }}
+    >
+      <Container>
+        <Row>
+          <Col>           
+          </Col>
+        </Row>  
+      </Container>
+    </ThemeProvider>
+  );
+}  
+```
+
+#### Overriding only specific parts of the default configuration
+
+You don't need to override every single value, you can override only the values you need to change, the other ones will be picked from the default configuration. 
+For example, in the following snippet we are overriding the number of the column for mobile, mobile-landscape, tablet and tablet-landscape, the laptop value will be the default one. 
+Also, `gridMedia`, `gridGutter` and the other configuration won't be touched.
+
+
+```JSX
+import {ThemeProvider} from "styled-components";
+import {Container, Row, Col} from '../where/you/place/index/file.js';
+  
+export const MyComponent = () => {
+  return (
+    <ThemeProvider
+      theme={{
+        gridColumns: {
+          m: 4,
+          ml: 4,
+          t: 8,
+          tl: 8,
+        },
+      }}
+    >
+      <Container>
+        <Row>
+          <Col>           
+          </Col>
+        </Row>  
+      </Container>
+    </ThemeProvider>
+  );
+}  
+```
+
+#### Overriding units
+
+You can change the unit used in css the same way you change values.
+
+```JSX
+import {ThemeProvider} from "styled-components";
+import {Container, Row, Col} from '../where/you/place/index/file.js';
+  
+export const MyComponent = () => {
+  return (
+    <ThemeProvider
+      theme={{
+        gridContainer: {
+          m: 71.25,
+          ml: 71.25,
+          t: 71.25,
+          tl: 71.25,
+          l: 71.25,
+          unit: `rem`,
+        },
+      }}
+    >
+      <Container>
+        <Row>
+          <Col>           
+          </Col>
+        </Row>  
+      </Container>
+    </ThemeProvider>
+  );
+}  
+```
+
