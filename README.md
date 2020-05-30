@@ -72,6 +72,10 @@ export const MyComponent = () => {
 }  
 ```
 #### Centering
+
+You can center your row content passing `center` prop to `<Row>`.
+You can specify a 'center always' or a 'center in specific breakpoints' behaviour.
+
 ```JSX
 import {Container, Row, Col} from '../where/you/place/index/file.js';
   
@@ -80,20 +84,15 @@ export const MyComponent = () => {
     <Container>
       <Row center>
         <Col>
-          this column will be centered at every breakpoints
+          this column will be always centered
         </Col>
       </Row>  
-      <Row center={['t']}>
+      <Row center={['ml', 'l']}>
         <Col>
-          this column will be centered from tablet to tablet-landscape (not included) breakpoints
+          this column will be centered only in mobile landscape and in laptop
         </Col>
       </Row>  
     </Container>
   );
 }  
 ```
-
-  
-
-
-
