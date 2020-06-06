@@ -230,6 +230,50 @@ export const MyComponent = () => {
 }  
 ```
 
+#### Col grow
+Sometime you simply need to have a column that grow to fit remaining part of row space
+
+```JSX
+import {Container, Row, Col} from '../where/you/place/index/file.js';
+  
+export const MyComponent = () => {
+  return (
+    <Container>
+      <Row>
+        <Col m={6}>
+          This column occupies half screen
+        </Col>               
+        <Col grow>
+          This column occupies the other part of the screen
+        </Col>               
+      </Row>  
+    </Container>
+  );
+}  
+```
+
+#### Col shrink
+Other times you need to have a column that shrink as much as possibile
+
+```JSX
+import {Container, Row, Col} from '../where/you/place/index/file.js';
+  
+export const MyComponent = () => {
+  return (
+    <Container>
+      <Row>
+        <Col grow>
+          This column grows as much as possibile
+        </Col>               
+        <Col shrink>
+          This column shrink as much as possibile
+        </Col>               
+      </Row>  
+    </Container>
+  );
+}  
+```
+
 ## Custom configuration
 
 In the following snippet you can see how you can pass a custom configuration using styled-components `<ThemeProvider>`. 
