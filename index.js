@@ -137,37 +137,47 @@ const Container = styled.div`
   
   max-width: ${({theme}) => get(theme, [CONT, M])}${({theme}) => get(theme, [CONT, UNIT])};
   ${({theme}) => {
-  const containerUnit = get(theme, [CONT, UNIT]);
-  const mediaUnit = get(theme, [MED, UNIT]);
-  return [DIM].map((D) => {
-    const media = get(theme, [MED, D]);
-    const container = get(theme, [CONT, D]);
-    return css`
-      @media (min-width: ${media}${mediaUnit}) {
-        max-width: ${container}${containerUnit};
-      }
-    `;
-  });
-}}; 
+    const containerUnit = get(theme, [CONT, UNIT]);
+    const mediaUnit = get(theme, [MED, UNIT]);
+    return [DIM].map((D) => {
+      const media = get(theme, [MED, D]);
+      const container = get(theme, [CONT, D]);
+      return css`
+        @media (min-width: ${media}${mediaUnit}) {
+          max-width: ${container}${containerUnit};
+        }
+      `;
+    });
+  }}; 
   margin: 0 auto;
   width: 100%;
   
   padding: 0 ${({theme}) => get(theme, [PAD, M])}${({theme}) => get(theme, [PAD, UNIT])};
   
   ${({theme}) => {
-  const mediaUnit = get(theme, [MED, UNIT]);
-  const paddingUnit = get(theme, [PAD, UNIT]);
-  return DIM.map((D) => {
-    const media = get(theme, [MED, D]);
-    const padding = get(theme, [PAD, D]);
-    return css`
-      @media (min-width: ${media}${mediaUnit}) {
-        padding: 0 ${padding}${paddingUnit};        
-      }
-    `;
-  })
-}}
+    const mediaUnit = get(theme, [MED, UNIT]);
+    const paddingUnit = get(theme, [PAD, UNIT]);
+    return DIM.map((D) => {
+      const media = get(theme, [MED, D]);
+      const padding = get(theme, [PAD, D]);
+      return css`
+        @media (min-width: ${media}${mediaUnit}) {
+          padding: 0 ${padding}${paddingUnit};        
+        }
+      `;
+    })
+  }}
+  
+  ${({fluid, theme}) => renderArrayOrBoolProp(fluid, theme, css`max-width: initial;`)}
 `;
+
+Container.propTypes = {
+  fluid: dimensionPropTypes
+}
+
+Container.defaultProps = {
+  fluid: false
+}
 
 const Row = styled.div`
   box-sizing: border-box;
@@ -307,6 +317,8 @@ Col.propTypes = {
 }
 Col.defaultProps = {
   debug: false,
+  grow: false,
+  shrink: false,
 }
 
 export {Container, Row, Col}
