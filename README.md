@@ -1,6 +1,7 @@
 - [Intro](#intro)
   - [Default configuration](#default-configuration)
 - [Container](#container)
+  - [Container fluid](#container-fluid)
 - [Row](#row)
   - [Justify content](#justify-content)
   - [Align items](#align-items)
@@ -48,7 +49,7 @@ Is a fully customizable flexbox grid with the following default configuration.
 | container padding         | `16`      | `16`                | `16`      | `16`              | `0`       | `px`  |
 
 ## Container
-Container does not have special props. Simply import it for using it.
+Container set the max-width for your grid.
 
 ```JSX
 import {Container} from '../where/you/place/index/file.js';
@@ -57,6 +58,27 @@ export const MyComponent = () => {
   return (
     <Container>      
       <p>This will be in the container!</p>
+    </Container>
+  );
+}  
+```
+
+#### Container fluid
+You can set a fluid behaviour both for single and all breakpoints
+
+```JSX
+import {Container, Row, Col} from '../where/you/place/index/file.js';
+  
+export const MyComponent = () => {
+  return (
+    <Container>
+      this container will have standard max width for every breakpoint   
+    </Container>
+    <Container fluid>
+      this container max-with will always be unsetted, so it will take the entire page
+    </Container>
+    <Container fluid={['t']}>
+      this container max-with will be unsetted only in tablet mode
     </Container>
   );
 }  
@@ -83,6 +105,7 @@ export const MyComponent = () => {
   );
 }  
 ```
+
 #### Justify content
 
 As a flexbox box, you can specify css rule `justify-content` passing props to `<Row>` component.  
