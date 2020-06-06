@@ -139,7 +139,7 @@ const Container = styled.div`
   ${({theme}) => {
   const containerUnit = get(theme, [CONT, UNIT]);
   const mediaUnit = get(theme, [MED, UNIT]);
-  return DIM.map((D) => {
+  return [DIM].map((D) => {
     const media = get(theme, [MED, D]);
     const container = get(theme, [CONT, D]);
     return css`
@@ -239,7 +239,12 @@ const Col = styled.div`
   
   padding-left: ${({theme}) => get(theme, [GUT, M])}${({theme}) => get(theme, [GUT, UNIT])};
   padding-right: ${({theme}) => get(theme, [GUT, M])}${({theme}) => get(theme, [GUT, UNIT])};
-  flex-basis: ${({theme}) => css`calc(100% / ${get(theme, [COL, M])} * ${props => props[M]})`};
+  
+  ${props => {
+    return props[M] && css`
+      flex-basis: ${({theme}) => css`calc(100% / ${get(theme, [COL, M])} * ${props => props[M]})`}
+    `;   
+  }};
   
   ${({theme, ...props}) => {
     const mediaUnit = get(theme, [MED, UNIT]);
@@ -248,7 +253,7 @@ const Col = styled.div`
       const media = get(theme, [MED, D]);
       const dimension = get(theme, [GUT, D]);
       const allColumns = get(theme, [COL, D]);
-      return css`
+      return props[D] && css`
         @media (min-width: ${media}${mediaUnit}) {
           padding-left: ${dimension}${gutterUnit};
           padding-right: ${dimension}${gutterUnit};
@@ -268,7 +273,7 @@ const Col = styled.div`
       if (props[prop]) {
         const allColumns = get(theme, [COL, D]);
         const strictMedia = getStrictMedia(theme, D);
-        return css`
+        return props[prop] && css`
           @media ${strictMedia} {
             flex-basis: calc(100% / ${allColumns} * ${props[prop]}); 
           }        
@@ -276,6 +281,10 @@ const Col = styled.div`
       }
     })
   }}
+  
+  ${({grow, theme}) => renderArrayOrBoolProp(grow, theme, css`flex-grow: 1;`)}
+  ${({shrink, theme}) => renderArrayOrBoolProp(shrink, theme, css`flex-shrink: 1;`)}
+  
   ${({debug}) => debug && css`
     background-color: lightsalmon;   
   `}    
@@ -292,6 +301,8 @@ Col.propTypes = {
   strictT: PropTypes.number,
   strictTl: PropTypes.number,
   strictL: PropTypes.number,
+  grow: dimensionPropTypes,
+  shrink: dimensionPropTypes,
   debug: PropTypes.bool.isRequired,
 }
 Col.defaultProps = {
